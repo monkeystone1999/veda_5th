@@ -1,0 +1,2 @@
+/home/monkeystone/veda_5th/build/CMakeFiles/edit_cache.dir
+/home/monkeystone/veda_5th/build/CMakeFiles/rebuild_cache.dir
