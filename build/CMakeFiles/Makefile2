@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/monkeystone/veda_5th
+CMAKE_SOURCE_DIR = /home/monkeytone/veda_5th
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/monkeystone/veda_5th/build
+CMAKE_BINARY_DIR = /home/monkeytone/veda_5th/build
 
 #=============================================================================
 # Directory level rules for the build root directory

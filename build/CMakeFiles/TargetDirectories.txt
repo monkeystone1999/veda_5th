@@ -1,2 +1,6 @@
-/home/monkeystone/veda_5th/build/CMakeFiles/edit_cache.dir
-/home/monkeystone/veda_5th/build/CMakeFiles/rebuild_cache.dir
+/home/monkeytone/veda_5th/build/CMakeFiles/edit_cache.dir
+/home/monkeytone/veda_5th/build/CMakeFiles/rebuild_cache.dir
+/home/monkeytone/veda_5th/build/CMakeFiles/list_install_components.dir
+/home/monkeytone/veda_5th/build/CMakeFiles/install.dir
+/home/monkeytone/veda_5th/build/CMakeFiles/install/local.dir
+/home/monkeytone/veda_5th/build/CMakeFiles/install/strip.dir
