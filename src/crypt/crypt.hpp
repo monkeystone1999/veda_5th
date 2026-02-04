@@ -1,4 +1,5 @@
 #include <iostream>
+#include <map>
 #include <memory>
 #include <mutex>
 #include <openssl/bio.h>

@@ -1,13 +1,16 @@
 #include <concepts>
+#include <cstddef>
 #include <string>
 #pragma pack(push, 1)
 struct baseHeader {
   size_t HeaderLength;
   baseHeader get() const { return *this; };
   void set(size_t headerLength) { HeaderLength = headerLength; };
+  auto next() { return nullptr; }
 };
 struct baseBody {
   size_t BodyLength;
+  auto next() { return nullptr; }
 };
 struct customHeader {
   baseHeader hd;

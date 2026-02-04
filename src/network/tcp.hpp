@@ -9,17 +9,25 @@
 /// 한다.
 /// net.route("/auth/*")
 /// packet 에서 url="" 이 부분을 넣자
-///
+/// 프로토콜은 어떤 것을 갖춰야할까? next() 를 했을 때 다음 문자열의 어떠한 값을
+/// 가져왔으면 하는데 근데 reinterpreter 를 통해서 serialization 이 가능하다.
+#include <concepts>
 #include <functional>
-#include <map>
-#include <string>
-
 namespace v5 {
-class TCP {
+
+template <typename T, typename R>
+concept ProtocolRequire_t = requires(T t, R r) {
+  { t.run(r) } -> std::same_as<void>;
+};
+
+template <ProtocolRequire_t ProtocolRequire> class TCP {
   int port;
+  ProtocolRequire Header;
 
 public:
   TCP(int port = -1);
   ~TCP();
+  int getPort() const { return port; }
+  int HeaderSwitch(std::function<ProtocolRequire> &&Pre) { Pre(Header); }
 };
 } // namespace v5
