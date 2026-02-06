@@ -4,11 +4,14 @@
 #include <string>
 namespace v5 {
 
-class Session;
+class SessionBase : public std::enable_shared_from_this<SessionBase> {
+public:
+  virtual ~SessionBase() = default;
+};
 
 template <typename T>
 concept Protocol = requires(T t, std::string &body, std::string &head,
-                            std::shared_ptr<Session> session) {
+                            std::shared_ptr<SessionBase> session) {
   { t.Switching(session, head) } -> std::same_as<bool>;
   { t.read(head, body) } -> std::same_as<bool>;
   { t.write(head, body) } -> std::same_as<bool>;
@@ -23,7 +26,7 @@ public:
   //  self(std::make_shared<Model<P>>(p)){}
 private:
   struct Concept {
-    virtual bool Switching(std::shared_ptr<Session> session,
+    virtual bool Switching(std::shared_ptr<SessionBase> session,
                            std ::string &head) = 0;
     virtual bool read(std::string &body, std::string &head) = 0;
     virtual bool write(std::string &body, std::string &head) = 0;
@@ -31,7 +34,7 @@ private:
   };
   template <Protocol P> struct Model : public Concept {
     P implement;
-    virtual bool Switching(std::shared_ptr<Session> session,
+    virtual bool Switching(std::shared_ptr<SessionBase> session,
                            std ::string &head) {
       implement.Switching(session, head);
     }

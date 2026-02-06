@@ -41,3 +41,31 @@ private:
   std::unique_ptr<Concept> self;
 };
 } // namespace v5
+
+template <typename T>
+concept Cipher = requires(T t, std::string &data, const std::string &c_data) {
+  { t.encrypt(c_data) } -> std::same_as<bool>;
+  { t.decrypt(data) } -> std::same_as<bool>;
+};
+class AnyCipher {
+public:
+  template <Cipher C> AnyCipher() : self(std::make_unique<Model<C>>()) {}
+  bool encrypt(const std::string &data) { return self->encrypt(data); }
+  bool decrypt(std::string &data) { return self->decrypt(data); }
+
+private:
+  struct Concept {
+    virtual ~Concept() = default;
+    virtual bool encrypt(const std::string &) = 0;
+    virtual bool decrypt(std::string &) = 0;
+  };
+
+  template <Cipher C> struct Model final : Concept {
+    C impl;
+    Model(C c) : impl(std::move(c)) {}
+    bool encrypt(const std::string &d) override { return impl.encrypt(d); }
+    bool decrypt(std::string &d) override { return impl.decrypt(d); }
+  };
+
+  std::unique_ptr<Concept> self;
+};

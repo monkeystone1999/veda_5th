@@ -5,8 +5,8 @@ namespace v5 {
 class ChaCha20_Poly1305 {
 public:
   ChaCha20_Poly1305();
-  bool encrypt(SSL *ssl, const std::string &data) {}
-  bool decrypt(SSL *ssl, std::string &data) {}
+  bool encrypt(const std::string &data) {}
+  bool decrypt(std::string &data) {}
 };
 
 } // namespace v5
