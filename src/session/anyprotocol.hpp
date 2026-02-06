@@ -1,6 +1,10 @@
+
 #pragma once
+#include <array>
+#include <bitset>
 #include <concepts>
 #include <memory>
+#include <queue>
 #include <string>
 namespace v5 {
 
@@ -15,6 +19,22 @@ concept Protocol = requires(T t, std::string &body, std::string &head,
   { t.Switching(session, head) } -> std::same_as<bool>;
   { t.read(head, body) } -> std::same_as<bool>;
   { t.write(head, body) } -> std::same_as<bool>;
+};
+
+enum class Type : uint8_t { HANDSHAKE = 0x01, MESSAGE = 0x02 };
+enum class Flags : uint8_t { FIN = 0x01, ACK = 0x02 };
+
+#pragma pack(push, 1)
+struct Header {
+  Type type;
+  Flags flags;
+  uint16_t length;
+  uint64_t seq;
+};
+#pragma pack(pop)
+
+class BaseProtocol {
+  static constexpr uint8_t bit_size = 64;
 };
 
 namespace prev {
