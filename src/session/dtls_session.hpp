@@ -16,10 +16,10 @@ concept CipherRequire =
       { t.encrypt(ssl, body) } -> std::same_as<std::vector<uint8_t>>;
       { t.decrypt(ssl, body) } -> std::same_as<std::vector<uint8_t>>;
     };
-class TLSSession {
+class DTLSSession {
 public:
   template <CipherRequire C>
-  TLSSession(SSL_CTX *ssl, C c)
+  DTLSSession(SSL_CTX *ssl, C c)
       : self(std::make_unique<Model<C>>(std::move(c))), tlsContext(ssl) {}
 
   template <typename Header> int Read(Header *header, std::string &data) {
@@ -71,6 +71,6 @@ private:
   };
   std::unique_ptr<Concept> self;
   TLSContext tlsContext;
+  std::vector<uint8_t> body;
 };
-
 } // namespace v5
