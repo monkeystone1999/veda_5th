@@ -1,3 +1,4 @@
+#include <iostream>
 #include <openssl/evp.h>
 #include <span>
 #include <string>
@@ -11,8 +12,20 @@ struct CipherSpec {
 };
 class CryptoState {
 public:
-  CryptoState(const CipherSpec &spec, std::span<const uint8_t> key,
-              std::span<const uint8_t> iv);
+  CryptoState();
+  bool encrypt(std::string &data);
+  bool decrypt(std::string &data);
+
+private:
+  CipherSpec BasicSpec;
+  EVP_CIPHER_CTX *ctx;
+  uint64_t seq;
+};
+
+class ChaCha20_poly {
+public:
+  ChaCha20_poly(const CipherSpec &spec, std::span<const uint8_t> key,
+                std::span<const uint8_t> iv);
   bool encrypt(std::string &data);
   bool decrypt(std::string &data);
 
@@ -20,4 +33,16 @@ private:
   EVP_CIPHER_CTX *ctx;
   uint64_t seq;
 };
+
+ChaCha20_poly::ChaCha20_poly(const CipherSpec &spec,
+                             std::span<const uint8_t> key,
+                             std::span<const uint8_t> iv) {
+  ctx = EVP_CIPHER_CTX_new();
+  int result =
+      EVP_CipherInit_ex(ctx, spec.evp(), nullptr, key.data(), iv.data(), 1);
+  if (result < 0) {
+    std::cerr << "EVP_CipherInit Error" << std::endl;
+  }
+}
+
 } // namespace v5

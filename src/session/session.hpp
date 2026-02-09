@@ -12,7 +12,7 @@ namespace v5 {
 /// ECDHE 는 확정으로 하고 대칭키 알고리즘만 선택하게 하자
 template <Protocol auto &ProtocolInstance> class Session : public SessionBase {
 private:
-  CryptoState CryptoState_;
+  std::unique_ptr<CryptoState> CryptoState_;
   TLSContext TLSContext_;
 
 public:
